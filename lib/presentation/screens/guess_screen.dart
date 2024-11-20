@@ -5,8 +5,8 @@ import 'package:guess_id/presentation/widgets/dropdown.dart';
 import 'package:guess_id/presentation/blocs/guess/guess_bloc.dart';
 import 'package:guess_id/presentation/widgets/id_form.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class GuessScreen extends StatelessWidget {
+  const GuessScreen({super.key});
 
   void onSelected(BuildContext context, String city) {
     context.read<GuessBloc>().add(CitySelected(city));
