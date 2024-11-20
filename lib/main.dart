@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:guess_id/config/router/app_router.dart';
 import 'package:guess_id/config/theme/app_theme.dart';
+import 'package:guess_id/presentation/blocs/guess/guess_bloc.dart';
 
 void main() {
   runApp(const MainApp());
@@ -11,10 +13,13 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: appRouter,
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme().getTheme(),
+    return BlocProvider(
+      create: (context) => GuessBloc(),
+      child: MaterialApp.router(
+        routerConfig: appRouter,
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme().getTheme(),
+      ),
     );
   }
 }
