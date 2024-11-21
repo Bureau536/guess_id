@@ -16,12 +16,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
-  // void interceptor() {
-  //   if (context.read<GuessBloc>().state is GuessGameStarted) {
-  //     return context.read<GuessBloc>().add(GameStartedEvent());
-  //   }
-  // }
-
   @override
   void initState() {
     super.initState();
