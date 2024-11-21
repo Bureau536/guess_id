@@ -1,4 +1,3 @@
-import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:guess_id/presentation/widgets/dropdown.dart';
@@ -13,23 +12,6 @@ class GuessGame extends StatefulWidget {
 }
 
 class _GuessGameState extends State<GuessGame> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   BackButtonInterceptor.add(myInterceptor);
-  // }
-
-  // @override
-  // void dispose() {
-  //   BackButtonInterceptor.remove(myInterceptor);
-  //   super.dispose();
-  // }
-
-  // bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
-  //   print("BACK BUTTON!"); // Do some stuff.
-  //   return false;
-  // }
-
   void onSelectedCity(BuildContext context, String city) {
     context.read<GuessBloc>().add(CitySelectedEvent(city));
   }

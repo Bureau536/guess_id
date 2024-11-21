@@ -50,5 +50,7 @@ class GuessBloc extends Bloc<GuessEvent, GuessState> {
     // emit(GuessGameStarted(selectedCity: event.city, attempts: 0)); // En caso de que se requiera reiniciar los attempts al cambiar la ciudad.
   }
 
-  void _onGoBackEventHandler(GoBackEvent event, Emitter<GuessState> emit) {}
+  void _onGoBackEventHandler(GoBackEvent event, Emitter<GuessState> emit) {
+    emit(GuessInitial());
+  }
 }
