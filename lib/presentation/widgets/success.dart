@@ -18,7 +18,7 @@ class Success extends StatelessWidget {
               Center(
                 child: Image.network(
                   'https://ih1.redbubble.net/image.490263180.2295/bg,f8f8f8-flat,750x,075,f-pad,750x1000,f8f8f8.jpg',
-                  // 'https://fotos.perfil.com//2019/10/16/900/0/maxi-martinez-7-10162019-791630.jpg',
+                  // 'https://fotos.perfil.com//2019/10/16/900/0/maxi-martinez-7-10162019-791630.jpg', // Imagen opcional
                   height: 300,
                   width: 300,
                   fit: BoxFit.cover,
