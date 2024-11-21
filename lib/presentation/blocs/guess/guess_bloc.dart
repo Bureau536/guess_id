@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:equatable/equatable.dart';
 
 part 'guess_event.dart';
 part 'guess_state.dart';
@@ -15,32 +14,41 @@ final Map<String, int> cities = {
 };
 
 class GuessBloc extends Bloc<GuessEvent, GuessState> {
-  GuessBloc()
-      : super(GuessState(
-          selectedCity: cities.keys.first,
-        )) {
-    on<CitySelected>(_onCitySelected);
-    on<GuessSubmitted>(_onGuessSubmitted);
+  GuessBloc() : super(GuessInitial()) {
+    on<GameStartedEvent>(_onGameStartedEventHandler);
+    on<GuessSubmittedEvent>(_onGuessSubmittedEventHandler);
+    on<CitySelectedEvent>(_onCitySelectedEventHandler);
+    on<GoBackEvent>(_onGoBackEventHandler);
   }
 
-  void _onCitySelected(CitySelected event, Emitter<GuessState> emit) {
-    emit(state.copyWith(selectedCity: event.city));
+  void _onGameStartedEventHandler(
+      GameStartedEvent event, Emitter<GuessState> emit) {
+    emit(GuessGameStarted(selectedCity: cities.keys.first));
   }
 
-  void _onGuessSubmitted(GuessSubmitted event, Emitter<GuessState> emit) {
-    final correctId = cities[state.selectedCity];
-    final attempts = state.attempts + 1;
+  void _onGuessSubmittedEventHandler(
+      GuessSubmittedEvent event, Emitter<GuessState> emit) {
+    if (state is! GuessGameStarted) {
+      return;
+    }
+    var stateNow = state as GuessGameStarted;
+    final correctId = cities[stateNow.selectedCity];
+    final attempts = stateNow.attempts + 1;
 
-    if (event.guessedId == correctId) {
-      emit(state.copyWith(
-        attempts: attempts,
-        success: true,
-      ));
+    if (event.id == correctId) {
+      emit(GuessSuccess(attempts));
     } else {
-      emit(state.copyWith(
+      emit(stateNow.copyWith(
         attempts: attempts,
-        success: false,
       ));
     }
   }
+
+  void _onCitySelectedEventHandler(
+      CitySelectedEvent event, Emitter<GuessState> emit) {
+    emit((state as GuessGameStarted).copyWith(selectedCity: event.city));
+    // emit(GuessGameStarted(selectedCity: event.city, attempts: 0)); // En caso de que se requiera reiniciar los attempts al cambiar la ciudad.
+  }
+
+  void _onGoBackEventHandler(GoBackEvent event, Emitter<GuessState> emit) {}
 }

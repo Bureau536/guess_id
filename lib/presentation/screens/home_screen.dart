@@ -1,34 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:guess_id/presentation/blocs/guess/guess_bloc.dart';
+import 'package:guess_id/presentation/widgets/guess_game.dart';
+import 'package:guess_id/presentation/widgets/start.dart';
+import 'package:guess_id/presentation/widgets/success.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({
+    super.key,
+  });
+
+  @override
+  State<HomeScreen> createState() => _HomeScreen();
+}
+
+class _HomeScreen extends State<HomeScreen> {
+  void interceptor() {
+    if (context.read<GuessBloc>().state is GuessGameStarted) {
+      return context.read<GuessBloc>().add(GameStartedEvent());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: Text(
-              'Bienvenido',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge
-                  ?.copyWith(fontSize: 36),
-            ),
-          ),
-          const SizedBox(height: 50),
-          FloatingActionButton.extended(
-            onPressed: () {
-              GoRouter.of(context).push('/guess-game');
-            },
-            label: const Text('Iniciar Juego'),
-          ),
-        ],
+      appBar: AppBar(
+        title: BlocBuilder<GuessBloc, GuessState>(
+          builder: (context, state) {
+            if (state is GuessSuccess) {
+              return const Text('Acertaste!');
+            }
+            if (state is GuessGameStarted) {
+              return const Text('Descubre el Id');
+            }
+            return const Text('');
+          },
+        ),
       ),
+      body: BlocBuilder<GuessBloc, GuessState>(builder: (context, state) {
+        if (state is GuessSuccess) {
+          return const Success();
+        }
+
+        if (state is GuessGameStarted) {
+          return const GuessGame();
+        }
+        return const Start();
+      }),
     );
   }
 }
