@@ -1,30 +1,29 @@
 part of 'guess_bloc.dart';
 
-class GuessState extends Equatable {
+sealed class GuessState {}
+
+final class GuessInitial extends GuessState {}
+
+final class GuessGameStarted extends GuessState {
   final String selectedCity;
   final int attempts;
-  final int guessedId;
-  final bool success;
 
-  const GuessState({
+  GuessGameStarted({
     required this.selectedCity,
     this.attempts = 0,
-    this.guessedId = 0,
-    this.success = false,
   });
 
-  GuessState copyWith({
+  GuessGameStarted copyWith({
     String? selectedCity,
     int? attempts,
-    int? guessedId,
-    bool? success,
   }) =>
-      GuessState(
+      GuessGameStarted(
           selectedCity: selectedCity ?? this.selectedCity,
-          attempts: attempts ?? this.attempts,
-          guessedId: guessedId ?? this.guessedId,
-          success: success ?? this.success);
+          attempts: attempts ?? this.attempts);
+}
 
-  @override
-  List<Object> get props => [selectedCity, attempts, guessedId, success];
+final class GuessSuccess extends GuessState {
+  final int totalAttempts;
+
+  GuessSuccess(this.totalAttempts);
 }

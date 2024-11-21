@@ -1,23 +1,18 @@
 part of 'guess_bloc.dart';
 
-abstract class GuessEvent extends Equatable {
-  const GuessEvent();
+sealed class GuessEvent {}
+
+final class GameStartedEvent extends GuessEvent {}
+
+final class GuessSubmittedEvent extends GuessEvent {
+  final int id;
+  GuessSubmittedEvent(this.id);
 }
 
-class CitySelected extends GuessEvent {
+final class CitySelectedEvent extends GuessEvent {
   final String city;
 
-  const CitySelected(this.city);
-
-  @override
-  List<Object> get props => [city];
+  CitySelectedEvent(this.city);
 }
 
-class GuessSubmitted extends GuessEvent {
-  final int guessedId;
-
-  const GuessSubmitted(this.guessedId);
-
-  @override
-  List<Object> get props => [guessedId];
-}
+final class GoBackEvent extends GuessEvent {}
