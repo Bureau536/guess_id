@@ -16,6 +16,7 @@ final Map<String, int> cities = {
 class GuessBloc extends Bloc<GuessEvent, GuessState> {
   GuessBloc() : super(GuessInitial()) {
     on<GameStartedEvent>(_onGameStartedEventHandler);
+    on<ChangeUserNameEvent>(_onChangeUserNameEventHandler);
     on<GuessSubmittedEvent>(_onGuessSubmittedEventHandler);
     on<CitySelectedEvent>(_onCitySelectedEventHandler);
     on<GoBackEvent>(_onGoBackEventHandler);
@@ -36,6 +37,12 @@ class GuessBloc extends Bloc<GuessEvent, GuessState> {
       selectedCity: cities.keys.first,
       userName: state.userName,
     ));
+  }
+
+  void _onChangeUserNameEventHandler(
+      ChangeUserNameEvent event, Emitter<GuessState> emit) {
+    emit(NewUserName());
+    return;
   }
 
   void _onGuessSubmittedEventHandler(

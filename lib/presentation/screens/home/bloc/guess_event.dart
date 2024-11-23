@@ -10,6 +10,8 @@ final class SignUpEvent extends GuessEvent {
 
 final class GameStartedEvent extends GuessEvent {}
 
+final class ChangeUserNameEvent extends GuessEvent {}
+
 final class GuessSubmittedEvent extends GuessEvent {
   final int id;
   GuessSubmittedEvent(this.id);

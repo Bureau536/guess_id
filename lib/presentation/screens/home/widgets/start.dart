@@ -10,6 +10,10 @@ class Start extends StatelessWidget {
     context.read<GuessBloc>().add(GameStartedEvent());
   }
 
+  void onChangeUserName(BuildContext context) {
+    context.read<GuessBloc>().add(ChangeUserNameEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +42,7 @@ class Start extends StatelessWidget {
           ),
           const SizedBox(height: 5),
           TextButton(
-            onPressed: () {},
+            onPressed: () => onChangeUserName(context),
             child: const Text('Cambiar nombre'),
           )
         ],
