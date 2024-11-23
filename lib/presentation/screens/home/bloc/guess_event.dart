@@ -2,6 +2,12 @@ part of 'guess_bloc.dart';
 
 sealed class GuessEvent {}
 
+final class SignUpEvent extends GuessEvent {
+  final String userName;
+
+  SignUpEvent(this.userName);
+}
+
 final class GameStartedEvent extends GuessEvent {}
 
 final class GuessSubmittedEvent extends GuessEvent {

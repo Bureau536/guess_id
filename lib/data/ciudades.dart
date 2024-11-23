@@ -9,3 +9,5 @@ const cities = [
   City(name: 'Los Angeles', id: 5),
   City(name: 'Santiago', id: 28),
 ];
+
+// La clase no se utiliza ya que la consigna requería que los datos estén hardcodeados en el Bloc.

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:guess_id/presentation/screens/home/bloc/guess_bloc.dart';
 import 'package:guess_id/presentation/screens/home/widgets/guess_game.dart';
+import 'package:guess_id/presentation/screens/home/widgets/sign_up_form.dart';
 import 'package:guess_id/presentation/screens/home/widgets/start.dart';
 import 'package:guess_id/presentation/screens/home/widgets/success.dart';
 
@@ -64,6 +65,10 @@ class _HomeScreen extends State<HomeScreen> {
 
         if (state is GuessGameStarted) {
           return const GuessGame();
+        }
+
+        if (state is NewUserName) {
+          return const SignUpForm();
         }
         return const Start();
       }),

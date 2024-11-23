@@ -19,11 +19,23 @@ class GuessBloc extends Bloc<GuessEvent, GuessState> {
     on<GuessSubmittedEvent>(_onGuessSubmittedEventHandler);
     on<CitySelectedEvent>(_onCitySelectedEventHandler);
     on<GoBackEvent>(_onGoBackEventHandler);
+    on<SignUpEvent>(_onSignUpEventHandler);
+  }
+
+  void _onSignUpEventHandler(SignUpEvent event, Emitter<GuessState> emit) {
+    emit(GuessInitial(userName: event.userName));
   }
 
   void _onGameStartedEventHandler(
       GameStartedEvent event, Emitter<GuessState> emit) {
-    emit(GuessGameStarted(selectedCity: cities.keys.first));
+    if (state.userName.isEmpty) {
+      emit(NewUserName());
+      return;
+    }
+    emit(GuessGameStarted(
+      selectedCity: cities.keys.first,
+      userName: state.userName,
+    ));
   }
 
   void _onGuessSubmittedEventHandler(
@@ -36,7 +48,7 @@ class GuessBloc extends Bloc<GuessEvent, GuessState> {
     final attempts = stateNow.attempts + 1;
 
     if (event.id == correctId) {
-      emit(GuessSuccess(attempts));
+      emit(GuessSuccess(totalAttempts: attempts, userName: state.userName));
     } else {
       emit(stateNow.copyWith(
         attempts: attempts,
@@ -51,6 +63,6 @@ class GuessBloc extends Bloc<GuessEvent, GuessState> {
   }
 
   void _onGoBackEventHandler(GoBackEvent event, Emitter<GuessState> emit) {
-    emit(GuessInitial());
+    emit(GuessInitial(userName: state.userName));
   }
 }

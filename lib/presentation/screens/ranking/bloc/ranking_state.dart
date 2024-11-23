@@ -1,10 +1,10 @@
 part of 'ranking_bloc.dart';
 
-sealed class RankingState extends Equatable {
-  const RankingState();
-  
-  @override
-  List<Object> get props => [];
-}
+class RankingState extends Equatable {
+  final List<Score> ranking;
 
-final class RankingInitial extends RankingState {}
+  const RankingState({required this.ranking});
+
+  @override
+  List<Object> get props => [ranking];
+}

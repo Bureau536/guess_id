@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:guess_id/presentation/widgets/dropdown.dart';
-import 'package:guess_id/presentation/blocs/guess/guess_bloc.dart';
-import 'package:guess_id/presentation/widgets/id_form.dart';
+import 'package:guess_id/presentation/screens/home/bloc/guess_bloc.dart';
+import 'package:guess_id/presentation/screens/home/widgets/id_form.dart';
 
 class GuessGame extends StatefulWidget {
   const GuessGame({super.key});

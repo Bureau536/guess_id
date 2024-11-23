@@ -1,14 +1,23 @@
 part of 'guess_bloc.dart';
 
-sealed class GuessState {}
+sealed class GuessState {
+  final String userName;
 
-final class GuessInitial extends GuessState {}
+  GuessState({this.userName = ''});
+}
+
+final class GuessInitial extends GuessState {
+  GuessInitial({super.userName});
+}
+
+final class NewUserName extends GuessState {}
 
 final class GuessGameStarted extends GuessState {
   final String selectedCity;
   final int attempts;
 
   GuessGameStarted({
+    required super.userName,
     required this.selectedCity,
     this.attempts = 0,
   });
@@ -19,11 +28,12 @@ final class GuessGameStarted extends GuessState {
   }) =>
       GuessGameStarted(
           selectedCity: selectedCity ?? this.selectedCity,
-          attempts: attempts ?? this.attempts);
+          attempts: attempts ?? this.attempts,
+          userName: super.userName);
 }
 
 final class GuessSuccess extends GuessState {
   final int totalAttempts;
 
-  GuessSuccess(this.totalAttempts);
+  GuessSuccess({required this.totalAttempts, super.userName});
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:guess_id/presentation/blocs/guess/guess_bloc.dart';
+import 'package:guess_id/presentation/screens/home/bloc/guess_bloc.dart';
 
 class Success extends StatelessWidget {
   const Success({super.key});
