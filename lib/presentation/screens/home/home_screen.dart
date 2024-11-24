@@ -1,10 +1,12 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:guess_id/presentation/blocs/guess/guess_bloc.dart';
-import 'package:guess_id/presentation/widgets/guess_game.dart';
-import 'package:guess_id/presentation/widgets/start.dart';
-import 'package:guess_id/presentation/widgets/success.dart';
+import 'package:guess_id/presentation/screens/home/bloc/guess_bloc.dart';
+import 'package:guess_id/presentation/screens/home/widgets/guess_game.dart';
+import 'package:guess_id/presentation/screens/home/widgets/sign_up_form.dart';
+import 'package:guess_id/presentation/screens/home/widgets/start.dart';
+import 'package:guess_id/presentation/screens/home/widgets/success.dart';
+import 'package:guess_id/presentation/screens/ranking/bloc/ranking_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -31,6 +33,7 @@ class _HomeScreen extends State<HomeScreen> {
   bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
     onGoBackEvent(context);
     return true;
+    // Back button funciona pero no pude overridear la función nativa de Android en la Ranking Screen.
   }
 
   void onGoBackEvent(BuildContext context) {
@@ -57,16 +60,30 @@ class _HomeScreen extends State<HomeScreen> {
           onPressed: () => onGoBackEvent(context),
         ),
       ),
-      body: BlocBuilder<GuessBloc, GuessState>(builder: (context, state) {
-        if (state is GuessSuccess) {
-          return const Success();
-        }
+      body: BlocConsumer<GuessBloc, GuessState>(
+        listener: (BuildContext context, GuessState state) {
+          if (state is GuessSuccess) {
+            context.read<RankingBloc>().add(NewScoreEvent(
+                userName: state.userName,
+                selectedCity: state.selectedCity,
+                attempts: state.totalAttempts));
+          }
+        },
+        builder: (context, state) {
+          if (state is GuessSuccess) {
+            return const Success();
+          }
 
-        if (state is GuessGameStarted) {
-          return const GuessGame();
-        }
-        return const Start();
-      }),
+          if (state is GuessGameStarted) {
+            return const GuessGame();
+          }
+
+          if (state is NewUserName) {
+            return const SignUpForm();
+          }
+          return const Start();
+        },
+      ),
     );
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:guess_id/presentation/widgets/dropdown.dart';
-import 'package:guess_id/presentation/blocs/guess/guess_bloc.dart';
-import 'package:guess_id/presentation/widgets/id_form.dart';
+import 'package:guess_id/presentation/screens/home/bloc/guess_bloc.dart';
+import 'package:guess_id/presentation/screens/home/widgets/id_form.dart';
 
 class GuessGame extends StatefulWidget {
   const GuessGame({super.key});
@@ -16,8 +16,13 @@ class _GuessGameState extends State<GuessGame> {
     context.read<GuessBloc>().add(CitySelectedEvent(city));
   }
 
-  void onGuessSubmitted(BuildContext context, int guessedId) {
-    context.read<GuessBloc>().add(GuessSubmittedEvent(guessedId));
+  void onGuessSubmitted(BuildContext context, int guessedId, String userName,
+      String selectedCity, int attempts) {
+    context.read<GuessBloc>().add(GuessSubmittedEvent(
+        id: guessedId,
+        attempts: attempts,
+        selectedCity: selectedCity,
+        userName: userName));
   }
 
   @override
@@ -45,8 +50,13 @@ class _GuessGameState extends State<GuessGame> {
                 ),
                 const SizedBox(height: 30),
                 IdForm(
-                  onGuessSubmitted: (guessedId) =>
-                      onGuessSubmitted(context, guessedId),
+                  onGuessSubmitted: (guessedId) => onGuessSubmitted(
+                    context,
+                    guessedId,
+                    state.userName,
+                    state.selectedCity,
+                    state.attempts,
+                  ),
                 ),
                 const SizedBox(height: 30),
                 if (state.attempts >= 1)
