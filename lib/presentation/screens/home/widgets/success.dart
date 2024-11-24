@@ -5,6 +5,10 @@ import 'package:guess_id/presentation/screens/home/bloc/guess_bloc.dart';
 class Success extends StatelessWidget {
   const Success({super.key});
 
+  void onGameStart(BuildContext context) {
+    context.read<GuessBloc>().add(GameStartedEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GuessBloc, GuessState>(
@@ -29,7 +33,12 @@ class Success extends StatelessWidget {
                 'Has acertado luego de ${state.totalAttempts} ${state.totalAttempts == 1 ? 'intento!' : 'intentos'}',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyLarge,
-              )
+              ),
+              const SizedBox(height: 30),
+              FloatingActionButton.extended(
+                onPressed: () => onGameStart(context),
+                label: const Text('Volver a intentar'),
+              ),
             ],
           ),
         );
