@@ -60,7 +60,11 @@ class _HomeScreen extends State<HomeScreen> {
       ),
       body: BlocBuilder<GuessBloc, GuessState>(builder: (context, state) {
         if (state is GuessSuccess) {
-          return const Success();
+          return Success(
+            selectedCity: state.selectedCity,
+            attempts: state.totalAttempts,
+            userName: state.userName,
+          );
         }
 
         if (state is GuessGameStarted) {

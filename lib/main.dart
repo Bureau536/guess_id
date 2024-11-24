@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:guess_id/config/router/app_router.dart';
 import 'package:guess_id/config/theme/app_theme.dart';
 import 'package:guess_id/presentation/screens/home/bloc/guess_bloc.dart';
-import 'package:guess_id/presentation/screens/home/home_screen.dart';
 import 'package:guess_id/presentation/screens/ranking/bloc/ranking_bloc.dart';
 
 void main() {
@@ -23,10 +23,10 @@ class MainApp extends StatelessWidget {
           create: (context) => RankingBloc(),
         ),
       ],
-      child: MaterialApp(
+      child: MaterialApp.router(
+        routerConfig: appRouter,
         debugShowCheckedModeBanner: false,
         theme: AppTheme().getTheme(),
-        home: const HomeScreen(),
       ),
     );
   }

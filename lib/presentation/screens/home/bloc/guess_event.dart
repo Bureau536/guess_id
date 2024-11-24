@@ -14,7 +14,16 @@ final class ChangeUserNameEvent extends GuessEvent {}
 
 final class GuessSubmittedEvent extends GuessEvent {
   final int id;
-  GuessSubmittedEvent(this.id);
+  final String userName;
+  final String selectedCity;
+  final int attempts;
+
+  GuessSubmittedEvent({
+    required this.id,
+    required this.userName,
+    required this.selectedCity,
+    required this.attempts,
+  });
 }
 
 final class CitySelectedEvent extends GuessEvent {

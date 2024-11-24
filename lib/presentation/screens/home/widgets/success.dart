@@ -1,12 +1,39 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:guess_id/presentation/screens/home/bloc/guess_bloc.dart';
+import 'package:guess_id/presentation/screens/ranking/bloc/ranking_bloc.dart';
+import 'package:go_router/go_router.dart';
 
-class Success extends StatelessWidget {
-  const Success({super.key});
+class Success extends StatefulWidget {
+  final String selectedCity;
+  final int attempts;
+  final String userName;
 
+  const Success(
+      {super.key,
+      required this.selectedCity,
+      required this.attempts,
+      required this.userName});
+
+  @override
+  State<Success> createState() => _SuccessState();
+}
+
+class _SuccessState extends State<Success> {
   void onGameStart(BuildContext context) {
     context.read<GuessBloc>().add(GameStartedEvent());
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    scheduleMicrotask(() => BlocProvider.of<RankingBloc>(context).add(
+        NewScoreEvent(
+            userName: widget.userName,
+            selectedCity: widget.selectedCity,
+            attempts: widget.attempts)));
   }
 
   @override
@@ -35,9 +62,29 @@ class Success extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
               const SizedBox(height: 30),
+              BlocBuilder<RankingBloc, RankingState>(
+                builder: (context, state) {
+                  return Text(state.ranking.toString());
+                },
+              ),
+              const SizedBox(height: 30),
               FloatingActionButton.extended(
                 onPressed: () => onGameStart(context),
                 label: const Text('Volver a intentar'),
+              ),
+              const SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: () => context.push('/ranking-best'),
+                    child: const Text('Mejores Puntuaciones'),
+                  ),
+                  TextButton(
+                    onPressed: () => context.push('/ranking-worst'),
+                    child: const Text('Peores Puntuaciones'),
+                  ),
+                ],
               ),
             ],
           ),

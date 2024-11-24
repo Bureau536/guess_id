@@ -55,7 +55,10 @@ class GuessBloc extends Bloc<GuessEvent, GuessState> {
     final attempts = stateNow.attempts + 1;
 
     if (event.id == correctId) {
-      emit(GuessSuccess(totalAttempts: attempts, userName: state.userName));
+      emit(GuessSuccess(
+          totalAttempts: attempts,
+          userName: state.userName,
+          selectedCity: stateNow.selectedCity));
     } else {
       emit(stateNow.copyWith(
         attempts: attempts,

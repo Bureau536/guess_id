@@ -34,6 +34,10 @@ final class GuessGameStarted extends GuessState {
 
 final class GuessSuccess extends GuessState {
   final int totalAttempts;
+  final String selectedCity;
 
-  GuessSuccess({required this.totalAttempts, super.userName});
+  GuessSuccess(
+      {required this.totalAttempts,
+      required this.selectedCity,
+      super.userName});
 }

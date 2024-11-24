@@ -5,6 +5,13 @@ class RankingState extends Equatable {
 
   const RankingState({required this.ranking});
 
+  RankingState copyWith({
+    List<Score>? ranking,
+  }) =>
+      RankingState(
+        ranking: ranking ?? this.ranking,
+      );
+
   @override
   List<Object> get props => [ranking];
 }
