@@ -14,6 +14,8 @@ final Map<String, int> cities = {
 };
 
 class GuessBloc extends Bloc<GuessEvent, GuessState> {
+  //variables de como viene el tema aca por ejemplo attemps
+
   GuessBloc() : super(GuessInitial()) {
     on<GameStartedEvent>(_onGameStartedEventHandler);
     on<GuessSubmittedEvent>(_onGuessSubmittedEventHandler);
@@ -31,8 +33,11 @@ class GuessBloc extends Bloc<GuessEvent, GuessState> {
     if (state is! GuessGameStarted) {
       return;
     }
-    var stateNow = state as GuessGameStarted;
-    final correctId = cities[stateNow.selectedCity];
+
+    var stateNow =
+        state as GuessGameStarted; //esto se evita con las varaibles en el bloc
+    final correctId = cities[stateNow
+        .selectedCity]; //selected city debe venir en el evento no en estado
     final attempts = stateNow.attempts + 1;
 
     if (event.id == correctId) {
@@ -46,7 +51,8 @@ class GuessBloc extends Bloc<GuessEvent, GuessState> {
 
   void _onCitySelectedEventHandler(
       CitySelectedEvent event, Emitter<GuessState> emit) {
-    emit((state as GuessGameStarted).copyWith(selectedCity: event.city));
+    emit((state as GuessGameStarted)
+        .copyWith(selectedCity: event.city)); // hablar sobre lo conceptual
     // emit(GuessGameStarted(selectedCity: event.city, attempts: 0)); // En caso de que se requiera reiniciar los attempts al cambiar la ciudad.
   }
 
